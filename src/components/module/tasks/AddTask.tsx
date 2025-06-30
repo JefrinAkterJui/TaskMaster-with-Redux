@@ -8,23 +8,27 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import { addTask } from "@/redux/features/task/taskSlice"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { format } from "date-fns"
 import { CalendarIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { Link } from "react-router"
+import { useDispatch } from "react-redux"
 
 export function AddTaskModal() {
     const form = useForm()
 
+    const dispatch = useDispatch()
+
     const onSubmit =(data: any)=>{
         console.log(data)
+        dispatch(addTask(data))
     }
 
   return (
