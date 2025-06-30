@@ -8,7 +8,16 @@ interface InitialState {
 }
 
 const initialState: InitialState={
-    tasks: [],
+    tasks: [
+        {
+            id:"dA9G55UCzDYLc5M3HGWT2",
+            isCompleted:false,
+            title:"Jui",
+            discription:"you potas meo ",
+            priority:"high",
+            dueDate:"2025-06-10T18:00:00.000Z"
+        }
+    ],
     filter:"all"
 }
 
@@ -25,6 +34,19 @@ const taskSlice = createSlice({
         addTask: (state, action : PayloadAction<ITask>)=>{
             const taskData = createTask(action.payload)
             state.tasks.push(taskData)
+        },
+        toggleState:(state, action: PayloadAction<string>)=> {
+            state.tasks.forEach((task)=>
+                task.id=== action.payload ? (task.isCompleted = !task.isCompleted) : task 
+            )
+            // const taskToToggle = state.tasks.find(task => task.id === action.payload);
+            // if (taskToToggle) {
+            //     taskToToggle.isCompleted = !taskToToggle.isCompleted;
+            // }
+        },
+        deleteTask:(state , action: PayloadAction<string>)=>{
+            console.log(action)
+            state.tasks = state.tasks.filter((task)=> task.id !== action.payload)
         }
     },
 })
@@ -35,6 +57,6 @@ export const selecetFilter = (state : RootSatate)=>{
     return state.todo.tasks
 }
 
-export const {addTask} = taskSlice.actions
+export const {addTask, toggleState, deleteTask} = taskSlice.actions
 
 export default taskSlice.reducer 
