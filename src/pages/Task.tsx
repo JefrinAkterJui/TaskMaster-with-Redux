@@ -1,7 +1,7 @@
 import { AddTaskModal } from '@/components/module/tasks/AddTask'
 import TaskCard from '@/components/module/tasks/TaskCard'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { createFilter, selecetFilter, selecetTask } from '@/redux/features/task/taskSlice'
+import { createFilter, selecetTask } from '@/redux/features/task/taskSlice'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 
 export default function Task() {
