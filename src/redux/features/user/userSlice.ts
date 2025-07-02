@@ -8,7 +8,16 @@ interface InitialState{
 }
 
 const initialState : InitialState={
-    users:[]
+    users:[
+        {
+            id:"G58ysKrvCXzy5SOoGOx82",
+            name:"Jui"
+        },
+        {
+            id:"6xnOTMptvDeTAwONNrRR8",
+            name:"Tuku"
+        }
+    ]
 }
 
 type DraftUser = Pick<IUser, "name">
@@ -26,7 +35,6 @@ const userSlice = createSlice({
             state.users.push(userData)
         },
         deleteUser:(state, action : PayloadAction<string>)=>{
-            console.log(action)
             state.users = state.users.filter((user)=> user.id !== action.payload)
         } 
     }

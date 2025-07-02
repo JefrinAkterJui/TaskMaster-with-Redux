@@ -31,25 +31,31 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { addTask } from '@/redux/features/task/taskSlice'
+import { selectUser } from '@/redux/features/user/userSlice'
+import { useAppSelector } from '@/redux/hooks'
 import type { ITask } from '@/types'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import { useState } from 'react'
 import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 
 export function AddTaskModal() {
   const form = useForm()
 
+  const [open , setOpen] = useState(false)
   const dispatch = useDispatch()
+  const users = useAppSelector(selectUser)
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
     dispatch(addTask(data as ITask))
+    setOpen(false)
+    form.reset()
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className=" cursor-pointer">Add Tasks</Button>
       </DialogTrigger>
@@ -105,6 +111,32 @@ export function AddTaskModal() {
                       <SelectItem value="high">High</SelectItem>
                       <SelectItem value="medium">Medium</SelectItem>
                       <SelectItem value="low">Low</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="assignTo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="mt-4">Assign To </FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Assign user" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {
+                        users.map((user)=>(
+                          <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>
+                        ))
+                      }
                     </SelectContent>
                   </Select>
                 </FormItem>

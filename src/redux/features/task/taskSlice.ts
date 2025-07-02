@@ -1,6 +1,7 @@
 import type { RootSatate } from "@/redux/store";
 import type { ITask } from "@/types";
 import { createSlice, nanoid, type PayloadAction } from "@reduxjs/toolkit";
+import { deleteUser } from "../user/userSlice";
 
 interface InitialState {
     tasks:ITask [];
@@ -15,16 +16,17 @@ const initialState: InitialState={
             title:"Jui",
             discription:"you potas meo ",
             priority:"high",
-            dueDate:"2025-06-10T18:00:00.000Z"
+            dueDate:"2025-06-10T18:00:00.000Z",
+            assignTo: null
         }
     ],
     filter:"all"
 }
 
-type DraftTask =Pick<ITask , "title" | "discription" | "priority" | "dueDate">
+type DraftTask =Pick<ITask , "title" | "discription" | "priority" | "dueDate" | "assignTo" >
 
 const createTask =(taskData : DraftTask): ITask =>{
-    return {id: nanoid(), isCompleted:false , ...taskData}
+    return {...taskData ,id: nanoid(), isCompleted:false , assignTo: taskData.assignTo ? taskData.assignTo : null  }
 }
 
 const taskSlice = createSlice({
@@ -52,6 +54,17 @@ const taskSlice = createSlice({
             state.filter = action.payload
         }
     },
+    extraReducers:(builder)=>{
+        builder.addCase(deleteUser,(state, action)=>{
+            const deleUserId = action.payload;
+
+            state.tasks.forEach((task)=>{
+                if(task.assignTo === deleUserId){
+                    task.assignTo = null
+                }
+            })
+        })
+    }
 })
 export const selecetTask = (state : RootSatate)=>{
     const filter = state.todo.filter;

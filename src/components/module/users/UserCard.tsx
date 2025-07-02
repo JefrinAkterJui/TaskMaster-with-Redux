@@ -10,7 +10,6 @@ interface IProps{
 
 export default function UserCard({user}: IProps) {
   const dispatch = useAppDispatch()
-  console.log(user)
 
   return (
     <div className="border px-5 py-3 rounded-md ">
@@ -21,7 +20,7 @@ export default function UserCard({user}: IProps) {
               </div>
             </div>
                 <div className="flex gap-3 items-center">
-                <Button onClick={()=> {console.log('hum hocche'), dispatch(deleteUser(user.id))}} variant="link" className="p-0 text-red-500">
+                <Button onClick={()=> dispatch(deleteUser(user.id))} variant="link" className="p-0 text-red-500">
                   <Trash2 />
                 </Button>
             </div>
