@@ -1,14 +1,17 @@
 import { AddTaskModal } from '@/components/module/tasks/AddTask'
 import TaskCard from '@/components/module/tasks/TaskCard'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { useGetTaskQuery } from '@/redux/api/baseApi'
+import type { ITask } from '@/types'
 
 export default function Task() {
-  // const tasks = useAppSelector(selecetTask)
+    const {data , isError , isLoading} = useGetTaskQuery(undefined)
 
-  const dispatch = useAppDispatch()
-  // console.log(tasks)
-  // console.log(filter)
+    // console.log({data , isError, isLoading})
+
+    if(isLoading){
+      return <p>Loding....</p>
+    }
 
   return (
     <>
@@ -21,18 +24,14 @@ export default function Task() {
               <TabsTrigger  value="low">Low</TabsTrigger>
               <TabsTrigger  value="medium">Medium</TabsTrigger>
               <TabsTrigger  value="high">High</TabsTrigger>
-              {/* onClick={()=> dispatch(createFilter("all"))}
-              onClick={()=> dispatch(createFilter("low"))}
-              onClick={()=> dispatch(createFilter("medium"))}
-              onClick={()=> dispatch(createFilter("high"))} */}
             </TabsList>
           </Tabs>
           <AddTaskModal />
         </div>
         <div className=" space-y-5 mt-5">
-          {/* {tasks.map((task) => (
+          {!isLoading && data.tasks.map((task: ITask ) => (
             <TaskCard task={task} key={task.id} />
-          ))} */}
+          ))}
         </div>
       </div>
     </>

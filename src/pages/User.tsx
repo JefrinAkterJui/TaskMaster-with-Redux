@@ -1,5 +1,4 @@
 import { AddUserModal } from '@/components/module/users/AddUser'
-import UserCard from '@/components/module/users/UserCard'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 
 export default function Task() {

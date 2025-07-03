@@ -30,23 +30,27 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { useAppSelector } from '@/redux/hooks'
-import type { ITask } from '@/types'
+import { useCreateTaskMutation } from '@/redux/api/baseApi'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 
 export function AddTaskModal() {
   const form = useForm()
-
   const [open , setOpen] = useState(false)
-  const dispatch = useDispatch()
+  const [createTask, {data , isLoading}] = useCreateTaskMutation()
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // dispatch(addTask(data as ITask))
+  console.log("Data", data)
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const taskData ={
+      ...data,
+      isCompleted:false
+    }
+    const res = await createTask(taskData).unwrap()
+    console.log('inside submit function', res)
+
     setOpen(false)
     form.reset()
   }
