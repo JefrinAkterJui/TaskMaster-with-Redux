@@ -30,8 +30,6 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { addTask } from '@/redux/features/task/taskSlice'
-import { selectUser } from '@/redux/features/user/userSlice'
 import { useAppSelector } from '@/redux/hooks'
 import type { ITask } from '@/types'
 import { DialogDescription } from '@radix-ui/react-dialog'
@@ -46,10 +44,9 @@ export function AddTaskModal() {
 
   const [open , setOpen] = useState(false)
   const dispatch = useDispatch()
-  const users = useAppSelector(selectUser)
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(addTask(data as ITask))
+    // dispatch(addTask(data as ITask))
     setOpen(false)
     form.reset()
   }
@@ -132,11 +129,11 @@ export function AddTaskModal() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {
+                      {/* {
                         users.map((user)=>(
                           <SelectItem value={user.id} key={user.id}>{user.name}</SelectItem>
                         ))
-                      }
+                      } */}
                     </SelectContent>
                   </Select>
                 </FormItem>

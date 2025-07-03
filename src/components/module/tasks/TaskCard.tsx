@@ -1,8 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { cn } from '@/lib/utils'
-import { deleteTask, toggleState } from '@/redux/features/task/taskSlice'
-import { selectUser } from '@/redux/features/user/userSlice'
 import { useAppSelector } from '@/redux/hooks'
 import type { ITask } from '@/types'
 
@@ -15,9 +13,9 @@ interface IProps {
 
 export default function TaskCard({ task }: IProps) {
   const dispatch = useDispatch()
-  const users = useAppSelector(selectUser)
+  // const users = useAppSelector(selectUser)
 
-  const assignedUser = users.find((user)=> user.id == task.assignTo)
+  // const assignedUser = users.find((user)=> user.id == task.assignTo)
 
 
   return (
@@ -34,13 +32,16 @@ export default function TaskCard({ task }: IProps) {
             </div>
             </div>
                 <div className="flex gap-3 items-center">
-                <Button onClick={()=> dispatch(deleteTask(task.id))} variant="link" className="p-0 text-red-500">
+                <Button  variant="link" className="p-0 text-red-500">
+                  {/* onClick={()=> dispatch(deleteTask(task.id))} */}
                 <Trash2 />
                 </Button>
-                <Checkbox checked={task.isCompleted} onClick={()=> dispatch(toggleState(task.id))}/>
+                <Checkbox checked={task.isCompleted} />
+                {/* onClick={()=> dispatch(toggleState(task.id))} */}
             </div>
         </div>
-        <p>assigned to -{assignedUser? assignedUser.name : 'No one'}</p>
+        <p>assigned to -</p>
+        {/* {assignedUser? assignedUser.name : 'No one'} */}
         <p className='mt-5'>{task.discription}</p>
     </div>
   )
